@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"net"
 
@@ -22,6 +23,42 @@ func newClient() *dgo.Dgraph {
 	return dgo.NewDgraphClient(
 		api.NewDgraphClient(d),
 	)
+}
+
+func setup(c *dgo.Dgraph) {
+	err := c.Alter(context.Background(), &api.Operation{
+		Schema: `
+			codename: string @index(term) .
+			rating: int .
+		`,
+	})
+}
+
+func runTxn(c *dgo.Dgraph) {
+	txn := c.NewTxn()
+	defer txn.Discard()
+	const q = `
+		{
+			all(func: anyofterms(name, "NAME")) {
+				uid
+				rating
+			}
+		}
+	`
+	resp, err := txn.Query(context.Background(), q)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var decode struct {
+		All []struct {
+			Uid    string
+			Rating int
+		}
+	}
+	if err := json.Unmarshal(resp.GetJson(), &decode); err != nil {
+		log.Fatal(err)
+	}
 }
 
 const (
