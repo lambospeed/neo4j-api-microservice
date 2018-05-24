@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package dgraph;
+
+service DgraphService {
+ rpc AddAgent(Agent) returns (Result) {}
+}
+
+message Agent {
+    string codename = 1; 
+}
+
+message Result {
+    string result = 1;
+}
