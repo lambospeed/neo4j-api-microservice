@@ -1,9 +1,7 @@
-FROM python:3.7-rc
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY . ./
-
-RUN pip install -r requirements.txt
-
-CMD ["python3.7", "app.py"]
+FROM golang:latest 
+RUN mkdir /app 
+ADD . /app/ 
+WORKDIR /app 
+RUN go get -u github.com/kobylyanskiy/dgraph-api/dgraph
+RUN go build -o main . 
+CMD ["/app/main"]
