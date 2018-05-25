@@ -18,7 +18,23 @@ const (
 type server struct{}
 
 func (s *server) AddAgent(ctx context.Context, in *pb.Agent) (*pb.Result, error) {
-	return &pb.Result{Result: "Hello " + in.Codename}, nil
+	return &pb.Result{Result: true, ErrorMessage: ""}, nil
+}
+
+func (s *server) AddOperation(ctx context.Context, in *pb.OperationParticipants) (*pb.Result, error) {
+	return &pb.Result{Result: true, ErrorMessage: ""}, nil
+}
+
+func (s *server) GetOperations(ctx context.Context, in *pb.Agent) (*pb.GetOperationsResult, error) {
+	return &pb.GetOperationsResult{
+		Result: &pb.Result{
+			Result:       true,
+			ErrorMessage: "",
+		},
+		Operations: []*pb.Operation{
+			&pb.Operation{Codename: "Codename"},
+		},
+	}, nil
 }
 
 func main() {
