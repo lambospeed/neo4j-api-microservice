@@ -15,9 +15,9 @@ env:
     - PROJECT_NAME_PRD=spy-crowd
     - CLUSTER_NAME_PRD=europe-cluster
     - CLOUDSDK_COMPUTE_ZONE=europe-west1-b
-    - DOCKER_IMAGE_NAME=neo4j-api
-    - KUBE_DEPLOYMENT_NAME=neo4j-api
-    - KUBE_DEPLOYMENT_CONTAINER_NAME=neo4j-api
+    - DOCKER_IMAGE_NAME=dgraph-api
+    - KUBE_DEPLOYMENT_NAME=dgraph-api
+    - KUBE_DEPLOYMENT_CONTAINER_NAME=dgraph-api
 
 before_deploy:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
@@ -28,7 +28,7 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ./update-service.sh v0.9.6.7
+    script: ./update-service.sh v0.9.6.9
     skip_cleanup: true
     on:
       branch: master

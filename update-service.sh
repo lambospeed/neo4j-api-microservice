@@ -1,7 +1,7 @@
 DOCKER=docker
 KUBECTL=kubectl
 IMAGE_LOCAL_PREFIX=kobylyanskiy
-DEPLOYMENT=neo4j-api
+DEPLOYMENT=dgraph-api
 VERSION=$1
 PROJECT_ID=spy-crowd
 
