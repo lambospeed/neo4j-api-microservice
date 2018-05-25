@@ -34,7 +34,7 @@ func (m *Agent) Reset()         { *m = Agent{} }
 func (m *Agent) String() string { return proto.CompactTextString(m) }
 func (*Agent) ProtoMessage()    {}
 func (*Agent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dgraph_3f3d270d4c407406, []int{0}
+	return fileDescriptor_dgraph_6620942b3f4c10fd, []int{0}
 }
 func (m *Agent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Agent.Unmarshal(m, b)
@@ -61,8 +61,47 @@ func (m *Agent) GetCodename() string {
 	return ""
 }
 
+type Operation struct {
+	Codename             string   `protobuf:"bytes,1,opt,name=codename" json:"codename,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Operation) Reset()         { *m = Operation{} }
+func (m *Operation) String() string { return proto.CompactTextString(m) }
+func (*Operation) ProtoMessage()    {}
+func (*Operation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dgraph_6620942b3f4c10fd, []int{1}
+}
+func (m *Operation) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Operation.Unmarshal(m, b)
+}
+func (m *Operation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Operation.Marshal(b, m, deterministic)
+}
+func (dst *Operation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Operation.Merge(dst, src)
+}
+func (m *Operation) XXX_Size() int {
+	return xxx_messageInfo_Operation.Size(m)
+}
+func (m *Operation) XXX_DiscardUnknown() {
+	xxx_messageInfo_Operation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Operation proto.InternalMessageInfo
+
+func (m *Operation) GetCodename() string {
+	if m != nil {
+		return m.Codename
+	}
+	return ""
+}
+
 type Result struct {
-	Result               string   `protobuf:"bytes,1,opt,name=result" json:"result,omitempty"`
+	Result               bool     `protobuf:"varint,1,opt,name=result" json:"result,omitempty"`
+	ErrorMessage         string   `protobuf:"bytes,2,opt,name=error_message,json=errorMessage" json:"error_message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -72,7 +111,7 @@ func (m *Result) Reset()         { *m = Result{} }
 func (m *Result) String() string { return proto.CompactTextString(m) }
 func (*Result) ProtoMessage()    {}
 func (*Result) Descriptor() ([]byte, []int) {
-	return fileDescriptor_dgraph_3f3d270d4c407406, []int{1}
+	return fileDescriptor_dgraph_6620942b3f4c10fd, []int{2}
 }
 func (m *Result) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Result.Unmarshal(m, b)
@@ -92,16 +131,118 @@ func (m *Result) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Result proto.InternalMessageInfo
 
-func (m *Result) GetResult() string {
+func (m *Result) GetResult() bool {
 	if m != nil {
 		return m.Result
+	}
+	return false
+}
+
+func (m *Result) GetErrorMessage() string {
+	if m != nil {
+		return m.ErrorMessage
 	}
 	return ""
 }
 
+type GetOperationsResult struct {
+	Result               *Result      `protobuf:"bytes,1,opt,name=result" json:"result,omitempty"`
+	Operations           []*Operation `protobuf:"bytes,2,rep,name=operations" json:"operations,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *GetOperationsResult) Reset()         { *m = GetOperationsResult{} }
+func (m *GetOperationsResult) String() string { return proto.CompactTextString(m) }
+func (*GetOperationsResult) ProtoMessage()    {}
+func (*GetOperationsResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dgraph_6620942b3f4c10fd, []int{3}
+}
+func (m *GetOperationsResult) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetOperationsResult.Unmarshal(m, b)
+}
+func (m *GetOperationsResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetOperationsResult.Marshal(b, m, deterministic)
+}
+func (dst *GetOperationsResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetOperationsResult.Merge(dst, src)
+}
+func (m *GetOperationsResult) XXX_Size() int {
+	return xxx_messageInfo_GetOperationsResult.Size(m)
+}
+func (m *GetOperationsResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetOperationsResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetOperationsResult proto.InternalMessageInfo
+
+func (m *GetOperationsResult) GetResult() *Result {
+	if m != nil {
+		return m.Result
+	}
+	return nil
+}
+
+func (m *GetOperationsResult) GetOperations() []*Operation {
+	if m != nil {
+		return m.Operations
+	}
+	return nil
+}
+
+type OperationParticipants struct {
+	Operation            *Operation `protobuf:"bytes,1,opt,name=operation" json:"operation,omitempty"`
+	Agents               []*Agent   `protobuf:"bytes,2,rep,name=agents" json:"agents,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *OperationParticipants) Reset()         { *m = OperationParticipants{} }
+func (m *OperationParticipants) String() string { return proto.CompactTextString(m) }
+func (*OperationParticipants) ProtoMessage()    {}
+func (*OperationParticipants) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dgraph_6620942b3f4c10fd, []int{4}
+}
+func (m *OperationParticipants) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OperationParticipants.Unmarshal(m, b)
+}
+func (m *OperationParticipants) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OperationParticipants.Marshal(b, m, deterministic)
+}
+func (dst *OperationParticipants) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OperationParticipants.Merge(dst, src)
+}
+func (m *OperationParticipants) XXX_Size() int {
+	return xxx_messageInfo_OperationParticipants.Size(m)
+}
+func (m *OperationParticipants) XXX_DiscardUnknown() {
+	xxx_messageInfo_OperationParticipants.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OperationParticipants proto.InternalMessageInfo
+
+func (m *OperationParticipants) GetOperation() *Operation {
+	if m != nil {
+		return m.Operation
+	}
+	return nil
+}
+
+func (m *OperationParticipants) GetAgents() []*Agent {
+	if m != nil {
+		return m.Agents
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Agent)(nil), "dgraph.Agent")
+	proto.RegisterType((*Operation)(nil), "dgraph.Operation")
 	proto.RegisterType((*Result)(nil), "dgraph.Result")
+	proto.RegisterType((*GetOperationsResult)(nil), "dgraph.GetOperationsResult")
+	proto.RegisterType((*OperationParticipants)(nil), "dgraph.OperationParticipants")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -117,6 +258,8 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DgraphServiceClient interface {
 	AddAgent(ctx context.Context, in *Agent, opts ...grpc.CallOption) (*Result, error)
+	AddOperation(ctx context.Context, in *OperationParticipants, opts ...grpc.CallOption) (*Result, error)
+	GetOperations(ctx context.Context, in *Operation, opts ...grpc.CallOption) (*GetOperationsResult, error)
 }
 
 type dgraphServiceClient struct {
@@ -136,9 +279,29 @@ func (c *dgraphServiceClient) AddAgent(ctx context.Context, in *Agent, opts ...g
 	return out, nil
 }
 
+func (c *dgraphServiceClient) AddOperation(ctx context.Context, in *OperationParticipants, opts ...grpc.CallOption) (*Result, error) {
+	out := new(Result)
+	err := c.cc.Invoke(ctx, "/dgraph.DgraphService/AddOperation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dgraphServiceClient) GetOperations(ctx context.Context, in *Operation, opts ...grpc.CallOption) (*GetOperationsResult, error) {
+	out := new(GetOperationsResult)
+	err := c.cc.Invoke(ctx, "/dgraph.DgraphService/GetOperations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DgraphServiceServer is the server API for DgraphService service.
 type DgraphServiceServer interface {
 	AddAgent(context.Context, *Agent) (*Result, error)
+	AddOperation(context.Context, *OperationParticipants) (*Result, error)
+	GetOperations(context.Context, *Operation) (*GetOperationsResult, error)
 }
 
 func RegisterDgraphServiceServer(s *grpc.Server, srv DgraphServiceServer) {
@@ -163,6 +326,42 @@ func _DgraphService_AddAgent_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DgraphService_AddOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationParticipants)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DgraphServiceServer).AddOperation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dgraph.DgraphService/AddOperation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DgraphServiceServer).AddOperation(ctx, req.(*OperationParticipants))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DgraphService_GetOperations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Operation)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DgraphServiceServer).GetOperations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dgraph.DgraphService/GetOperations",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DgraphServiceServer).GetOperations(ctx, req.(*Operation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _DgraphService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "dgraph.DgraphService",
 	HandlerType: (*DgraphServiceServer)(nil),
@@ -171,22 +370,40 @@ var _DgraphService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "AddAgent",
 			Handler:    _DgraphService_AddAgent_Handler,
 		},
+		{
+			MethodName: "AddOperation",
+			Handler:    _DgraphService_AddOperation_Handler,
+		},
+		{
+			MethodName: "GetOperations",
+			Handler:    _DgraphService_GetOperations_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "dgraph.proto",
 }
 
-func init() { proto.RegisterFile("dgraph.proto", fileDescriptor_dgraph_3f3d270d4c407406) }
+func init() { proto.RegisterFile("dgraph.proto", fileDescriptor_dgraph_6620942b3f4c10fd) }
 
-var fileDescriptor_dgraph_3f3d270d4c407406 = []byte{
-	// 134 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x49, 0x49, 0x2f, 0x4a,
-	0x2c, 0xc8, 0xd0, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x83, 0xf0, 0x94, 0x94, 0xb9, 0x58,
-	0x1d, 0xd3, 0x53, 0xf3, 0x4a, 0x84, 0xa4, 0xb8, 0x38, 0x92, 0xf3, 0x53, 0x52, 0xf3, 0x12, 0x73,
-	0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xe0, 0x7c, 0x25, 0x05, 0x2e, 0xb6, 0xa0, 0xd4,
-	0xe2, 0xd2, 0x9c, 0x12, 0x21, 0x31, 0x2e, 0xb6, 0x22, 0x30, 0x0b, 0xaa, 0x06, 0xca, 0x33, 0xb2,
-	0xe1, 0xe2, 0x75, 0x01, 0x1b, 0x18, 0x9c, 0x5a, 0x54, 0x96, 0x99, 0x9c, 0x2a, 0xa4, 0xcd, 0xc5,
-	0xe1, 0x98, 0x92, 0x02, 0x31, 0x9a, 0x57, 0x0f, 0x6a, 0x35, 0x98, 0x2b, 0xc5, 0x07, 0xe3, 0x42,
-	0xcc, 0x54, 0x62, 0x48, 0x62, 0x03, 0xbb, 0xc9, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0xad, 0x71,
-	0x76, 0xf5, 0xa3, 0x00, 0x00, 0x00,
+var fileDescriptor_dgraph_6620942b3f4c10fd = []byte{
+	// 294 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0xe1, 0x4a, 0xf4, 0x30,
+	0x10, 0xbc, 0xde, 0xc7, 0x57, 0xda, 0xbd, 0x56, 0x30, 0xa2, 0x94, 0x8a, 0x70, 0xe4, 0x50, 0x0f,
+	0x84, 0x13, 0xeb, 0x03, 0x48, 0x41, 0xf1, 0x97, 0x28, 0xf5, 0x01, 0x24, 0x36, 0x4b, 0x2d, 0x78,
+	0x4d, 0x49, 0xa2, 0xcf, 0xe7, 0xa3, 0x89, 0x69, 0x9a, 0xbb, 0x7a, 0xc5, 0x7f, 0xdd, 0x9d, 0xd9,
+	0x99, 0xce, 0x6e, 0x20, 0xe2, 0x95, 0x64, 0xed, 0xdb, 0xaa, 0x95, 0x42, 0x0b, 0xe2, 0x77, 0x15,
+	0x5d, 0xc0, 0xff, 0xbc, 0xc2, 0x46, 0x93, 0x14, 0x82, 0x52, 0x70, 0x6c, 0xd8, 0x1a, 0x13, 0x6f,
+	0xee, 0x2d, 0xc3, 0xc2, 0xd5, 0xf4, 0x1c, 0xc2, 0xc7, 0x16, 0x25, 0xd3, 0xb5, 0x68, 0xfe, 0x24,
+	0xde, 0x81, 0x5f, 0xa0, 0xfa, 0x78, 0xd7, 0xe4, 0x08, 0x7c, 0x69, 0xbe, 0x0c, 0x27, 0x28, 0x6c,
+	0x45, 0x16, 0x10, 0xa3, 0x94, 0x42, 0xbe, 0xac, 0x51, 0x29, 0x56, 0x61, 0x32, 0x35, 0x12, 0x91,
+	0x69, 0x3e, 0x74, 0x3d, 0xda, 0xc2, 0xc1, 0x3d, 0x6a, 0x67, 0xa9, 0xac, 0xe6, 0xd9, 0x40, 0x73,
+	0x96, 0xed, 0xad, 0x6c, 0xa4, 0x0e, 0x77, 0x1e, 0x57, 0x00, 0xc2, 0xcd, 0x26, 0xd3, 0xf9, 0xbf,
+	0xe5, 0x2c, 0xdb, 0xef, 0xb9, 0x4e, 0xb5, 0xd8, 0x22, 0x51, 0x01, 0x87, 0x0e, 0x78, 0x62, 0x52,
+	0xd7, 0x65, 0xdd, 0xb2, 0x46, 0x2b, 0x72, 0x09, 0xa1, 0xa3, 0x59, 0xdb, 0x11, 0xa9, 0x0d, 0x87,
+	0x9c, 0x82, 0xcf, 0x7e, 0x16, 0xda, 0x1b, 0xc7, 0x3d, 0xdb, 0xac, 0xb9, 0xb0, 0x60, 0xf6, 0xe5,
+	0x41, 0x7c, 0x6b, 0x80, 0x67, 0x94, 0x9f, 0x75, 0x89, 0xe4, 0x02, 0x82, 0x9c, 0xf3, 0xee, 0x18,
+	0xc3, 0xa1, 0xf4, 0x57, 0x50, 0x3a, 0x21, 0x37, 0x10, 0xe5, 0x9c, 0x6f, 0x8e, 0x72, 0xb2, 0xf3,
+	0x4f, 0xdb, 0x29, 0x46, 0x04, 0x72, 0x88, 0x07, 0x2b, 0x26, 0xbb, 0xa9, 0xd2, 0xe3, 0xbe, 0x35,
+	0x72, 0x0c, 0x3a, 0x79, 0xf5, 0xcd, 0x4b, 0xba, 0xfe, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x6c, 0xa1,
+	0x9c, 0x01, 0x59, 0x02, 0x00, 0x00,
 }

@@ -4,12 +4,29 @@ package dgraph;
 
 service DgraphService {
  rpc AddAgent(Agent) returns (Result) {}
+ rpc AddOperation(OperationParticipants) returns (Result) {}
+ rpc GetOperations(Operation) returns (GetOperationsResult) {}
 }
 
 message Agent {
     string codename = 1; 
 }
 
+message Operation {
+    string codename = 1;
+}
+
 message Result {
-    string result = 1;
+    bool result = 1;
+    string error_message = 2;
+}
+
+message GetOperationsResult {
+    Result result = 1;
+    repeated Operation operations = 2;
+}
+
+message OperationParticipants {
+    Operation operation = 1;
+    repeated Agent agents = 2;
 }
