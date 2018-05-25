@@ -5,7 +5,7 @@ package dgraph;
 service DgraphService {
  rpc AddAgent(Agent) returns (Result) {}
  rpc AddOperation(OperationParticipants) returns (Result) {}
- rpc GetOperations(Operation) returns (GetOperationsResult) {}
+ rpc GetOperations(Agent) returns (GetOperationsResult) {}
 }
 
 message Agent {
