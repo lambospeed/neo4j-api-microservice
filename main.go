@@ -2,12 +2,17 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net"
+
+	"./db"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/dgraph-io/dgo"
 	pb "github.com/kobylyanskiy/dgraph-api/dgraph"
 )
 
@@ -17,7 +22,36 @@ const (
 
 type server struct{}
 
+var client *dgo.Dgraph
+
 func (s *server) AddAgent(ctx context.Context, in *pb.Agent) (*pb.Result, error) {
+
+	p := db.Agent{
+		Codename: "Agent008",
+		Rating:   4.4,
+		Operations: []db.Operation{{
+			Codename: "Operation1",
+		}, {
+			Codename: "Operation2",
+		}},
+	}
+	assigned, err := db.AddData(client, p)
+	log.Println(assigned.Uids["blank-0"])
+
+	resp, err := db.GetData(client, "Agent008")
+	log.Println(resp)
+
+	type Root struct {
+		Me []db.Response `json:"request"`
+	}
+
+	var r Root
+	err = json.Unmarshal(resp.Json, &r)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Me: %+v\n", r.Me)
+
 	return &pb.Result{Result: true, ErrorMessage: ""}, nil
 }
 
@@ -38,6 +72,8 @@ func (s *server) GetOperations(ctx context.Context, in *pb.Agent) (*pb.GetOperat
 }
 
 func main() {
+	client = db.SetupDgraph()
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
